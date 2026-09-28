@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IronWorks Gym — Dallas, TX</title>
+<style>
+  :root{
+    --orange:#ea580c; --orange-dark:#c2410c; --orange-light:#ffedd5;
+    --ink:#1c1917; --muted:#78716c; --bg:#faf8f5; --card:#ffffff;
+    --accent:#84cc16; --dark:#1c1917;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; color:var(--ink); background:var(--bg); line-height:1.6;}
+  /* ---------- NAV ---------- */
+  nav{position:sticky; top:0; z-index:50; background:rgba(28,25,23,.94); backdrop-filter:blur(8px); border-bottom:1px solid #292524;}
+  .nav-inner{max-width:1100px; margin:0 auto; padding:14px 24px; display:flex; align-items:center; justify-content:space-between;}
+  .logo{display:flex; align-items:center; gap:10px; font-weight:800; font-size:1.15rem; color:#fff;}
+  .logo .mark{width:36px; height:36px; border-radius:12px; background:linear-gradient(135deg,var(--orange),#f97316); display:flex; align-items:center; justify-content:center; font-size:20px;}
+  .nav-links{display:flex; gap:26px; align-items:center;}
+  .nav-links a{text-decoration:none; color:#d6d3d1; font-weight:600; font-size:.95rem;}
+  .nav-links a:hover{color:var(--orange);}
+  .btn{display:inline-block; background:var(--orange); color:#fff; border:none; padding:12px 24px; border-radius:999px; font-weight:700; font-size:.95rem; cursor:pointer; text-decoration:none; transition:transform .15s, background .15s;}
+  .btn:hover{background:var(--orange-dark); transform:translateY(-1px);}
+  .btn-ghost{background:transparent; color:var(--orange-dark); border:2px solid var(--orange-light);}
+  .btn-ghost:hover{background:var(--orange-light);}
+  /* ---------- HERO ---------- */
+  .hero{max-width:1100px; margin:0 auto; padding:72px 24px 56px; display:grid; grid-template-columns:1.1fr .9fr; gap:48px; align-items:center;}
+  .hero h1{font-size:3rem; line-height:1.15; letter-spacing:-1px; margin-bottom:16px;}
+  .hero h1 span{color:var(--orange);}
+  .hero p{color:var(--muted); font-size:1.1rem; margin-bottom:28px; max-width:480px;}
+  .hero-cta{display:flex; gap:14px; flex-wrap:wrap;}
+  .hero-badges{display:flex; gap:22px; margin-top:34px; flex-wrap:wrap;}
+  .badge{display:flex; align-items:center; gap:8px; font-size:.9rem; font-weight:600; color:var(--muted);}
+  .badge .star{color:var(--accent); font-size:1.1rem;}
+  .hero-art{background:linear-gradient(135deg,#292524,#44403c 55%,#57534e); border-radius:28px; min-height:340px; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden;}
+  .hero-art::after{content:""; position:absolute; width:420px; height:420px; border-radius:50%; background:radial-gradient(circle,rgba(234,88,12,.35),transparent 70%); top:-120px; right:-120px;}
+  .hero-art .big{font-size:120px; position:relative; z-index:1; filter:drop-shadow(0 12px 24px rgba(0,0,0,.4));}
+  .hero-art .tag{position:absolute; bottom:22px; left:22px; right:22px; z-index:1; background:#fff; border-radius:16px; padding:14px 18px; font-size:.9rem; box-shadow:0 8px 24px rgba(0,0,0,.25);}
+  .hero-art .tag b{color:var(--orange-dark);}
+  /* ---------- SECTIONS ---------- */
+  .section{max-width:1100px; margin:0 auto; padding:48px 24px;}
+  .section h2{font-size:1.9rem; letter-spacing:-.5px; margin-bottom:8px;}
+  .section .sub{color:var(--muted); margin-bottom:32px;}
+  .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:20px;}
+  .card{background:var(--card); border-radius:18px; padding:26px; border:1px solid #ede9e5; transition:transform .15s, box-shadow .15s;}
+  .card:hover{transform:translateY(-3px); box-shadow:0 12px 28px rgba(234,88,12,.14);}
+  .card .icon{font-size:32px; margin-bottom:12px;}
+  .card h3{font-size:1.1rem; margin-bottom:6px;}
+  .card p{color:var(--muted); font-size:.93rem;}
+  .card .price{margin-top:12px; font-weight:800; color:var(--orange-dark);}
+  .plan-pop{border:2px solid var(--orange); position:relative;}
+  .plan-pop .flag{position:absolute; top:-13px; left:24px; background:var(--orange); color:#fff; font-size:.75rem; font-weight:800; padding:3px 12px; border-radius:999px; letter-spacing:.5px;}
+  .trainer{display:flex; gap:16px; align-items:center;}
+  .trainer .avatar{width:60px; height:60px; border-radius:50%; background:linear-gradient(135deg,var(--orange-light),#fdba74); display:flex; align-items:center; justify-content:center; font-size:30px; flex-shrink:0;}
+  .trainer .spec{font-size:.85rem; color:var(--orange-dark); font-weight:700;}
+  .sched{display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:20px;}
+  .sched .card .when{font-size:.85rem; font-weight:700; color:var(--orange-dark); margin-bottom:4px;}
+  .sched .card .coach{font-size:.88rem; color:var(--muted);}
+  .info{display:grid; grid-template-columns:1fr 1fr; gap:20px;}
+  .info .card h3{margin-bottom:12px;}
+  .hours-row{display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px dashed #ede9e5; font-size:.95rem;}
+  .hours-row:last-child{border:none;}
+  .amen{display:flex; gap:10px; align-items:center; padding:6px 0; font-size:.95rem;}
+  footer{background:var(--dark); color:#d6d3d1; margin-top:40px;}
+  .footer-inner{max-width:1100px; margin:0 auto; padding:36px 24px; display:flex; justify-content:space-between; gap:24px; flex-wrap:wrap; font-size:.9rem;}
+  footer b{color:#fff;}
+  .demo-note{max-width:1100px; margin:0 auto; padding:0 24px 28px; color:#a8a29e; font-size:.8rem;}
+  @media(max-width:760px){ .hero{grid-template-columns:1fr; padding-top:48px;} .hero h1{font-size:2.2rem;} .info{grid-template-columns:1fr;} .nav-links a:not(.btn){display:none;} }
+
+  /* ---------- CHAT WIDGET ---------- */
+  #chat-launcher{position:fixed; right:24px; bottom:24px; width:64px; height:64px; border-radius:50%; background:linear-gradient(135deg,var(--orange),var(--orange-dark)); border:none; cursor:pointer; font-size:28px; box-shadow:0 10px 30px rgba(234,88,12,.45); z-index:100; transition:transform .15s; display:flex; align-items:center; justify-content:center;}
+  #chat-launcher:hover{transform:scale(1.07);}
+  #chat-badge{position:absolute; top:-4px; right:-4px; background:#ef4444; color:#fff; font-size:.7rem; font-weight:800; width:22px; height:22px; border-radius:50%; display:flex; align-items:center; justify-content:center;}
+  #chat-widget{position:fixed; right:24px; bottom:100px; width:384px; max-width:calc(100vw - 32px); height:580px; max-height:calc(100vh - 130px); background:#fff; border-radius:22px; box-shadow:0 24px 70px rgba(28,25,23,.3); z-index:100; display:none; flex-direction:column; overflow:hidden; border:1px solid #ede9e5;}
+  #chat-widget.open{display:flex; animation:pop .22s ease-out;}
+  @keyframes pop{from{transform:translateY(16px) scale(.97); opacity:0;} to{transform:none; opacity:1;}}
+  .chat-header{background:linear-gradient(135deg,var(--orange),var(--orange-dark)); color:#fff; padding:16px 18px; display:flex; align-items:center; gap:12px;}
+  .chat-avatar{width:42px; height:42px; border-radius:50%; background:#fff; display:flex; align-items:center; justify-content:center; font-size:22px; flex-shrink:0;}
+  .chat-header .t{flex:1;}
+  .chat-header .t b{display:block; font-size:.98rem;}
+  .chat-header .t span{font-size:.78rem; opacity:.92; display:flex; align-items:center; gap:6px;}
+  .dot{width:8px; height:8px; border-radius:50%; background:#4ade80; display:inline-block;}
+  .chat-close{background:rgba(255,255,255,.18); border:none; color:#fff; width:30px; height:30px; border-radius:50%; cursor:pointer; font-size:15px;}
+  .chat-close:hover{background:rgba(255,255,255,.32);}
+  #chat-body{flex:1; overflow-y:auto; padding:18px 14px; background:#faf8f5; display:flex; flex-direction:column; gap:10px;}
+  .msg{max-width:82%; padding:11px 15px; border-radius:18px; font-size:.92rem; line-height:1.5; animation:fadein .2s ease-out;}
+  @keyframes fadein{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:none;}}
+  .msg.bot{background:#fff; border:1px solid #f0e9e3; border-bottom-left-radius:6px; align-self:flex-start; color:var(--ink); box-shadow:0 2px 6px rgba(0,0,0,.04);}
+  .msg.user{background:var(--orange); color:#fff; border-bottom-right-radius:6px; align-self:flex-end;}
+  .msg.typing{display:flex; gap:5px; padding:15px 18px;}
+  .msg.typing i{width:8px; height:8px; border-radius:50%; background:#b8a89e; animation:blink 1.1s infinite;}
+  .msg.typing i:nth-child(2){animation-delay:.18s;} .msg.typing i:nth-child(3){animation-delay:.36s;}
+  @keyframes blink{0%,60%,100%{opacity:.25; transform:none;} 30%{opacity:1; transform:translateY(-3px);}}
+  #chips{display:flex; gap:8px; padding:10px 14px 4px; flex-wrap:wrap; background:#faf8f5;}
+  .chip{border:1.5px solid var(--orange); color:var(--orange-dark); background:#fff; border-radius:999px; padding:7px 14px; font-size:.83rem; font-weight:600; cursor:pointer; transition:background .15s;}
+  .chip:hover{background:var(--orange-light);}
+  .chat-input{display:flex; gap:8px; padding:12px 14px 16px; background:#faf8f5; border-top:1px solid #f0e9e3;}
+  .chat-input input{flex:1; border:1.5px solid #e7e0d9; border-radius:999px; padding:11px 16px; font-size:.92rem; outline:none; font-family:inherit;}
+  .chat-input input:focus{border-color:var(--orange);}
+  .chat-input button{background:var(--orange); color:#fff; border:none; width:44px; height:44px; border-radius:50%; cursor:pointer; font-size:18px; flex-shrink:0;}
+  .chat-input button:hover{background:var(--orange-dark);}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="logo"><span class="mark">🏋️</span> IronWorks Gym</div>
+    <div class="nav-links">
+      <a href="#plans">Membership</a>
+      <a href="#classes">Classes</a>
+      <a href="#trainers">Trainers</a>
+      <a href="#visit">(469) 555-0163</a>
+      <a class="btn" href="#" onclick="openChat();return false;">Free Trial</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div>
+    <h1>Stronger every <span>single day.</span></h1>
+    <p>Dallas's no-nonsense strength &amp; fitness gym. 24,000 sq ft of iron, 40+ weekly classes, expert coaches — and your first session is free.</p>
+    <div class="hero-cta">
+      <button class="btn" onclick="openChat()">💪 Chat with Coach Flex</button>
+      <a class="btn btn-ghost" href="#plans">View memberships</a>
+    </div>
+    <div class="hero-badges">
+      <span class="badge"><span class="star">★★★★★</span> 4.8 · 620+ reviews</span>
+      <span class="badge">✅ No signup fees</span>
+      <span class="badge">🎟️ First session free</span>
+    </div>
+  </div>
+  <div class="hero-art">
+    <span class="big">🏋️</span>
+    <div class="tag"><b>Meet Coach Flex, our AI assistant</b> — click the chat bubble to book a free trial, compare plans, or ask anything.</div>
+  </div>
+</header>
+
+<section class="section" id="plans">
+  <h2>Membership plans</h2>
+  <p class="sub">Simple pricing. No signup fees. Cancel anytime on monthly.</p>
+  <div class="grid">
+    <div class="card"><div class="icon">🎟️</div><h3>Day Pass</h3><p>Full-day access to the gym floor, all classes, sauna &amp; pool. Perfect for visitors.</p><div class="price">$15 / day</div></div>
+    <div class="card plan-pop"><div class="flag">MOST POPULAR</div><div class="icon">📅</div><h3>Monthly</h3><p>Unlimited gym access, all 40+ weekly classes, sauna, pool &amp; locker room. Bring 1 guest per visit.</p><div class="price">$39 / month</div></div>
+    <div class="card"><div class="icon">🏆</div><h3>Annual</h3><p>Everything in Monthly, locked in for a year — that's 2 months free vs. paying monthly.</p><div class="price">$390 / year</div></div>
+  </div>
+</section>
+
+<section class="section" id="classes">
+  <h2>Class schedule</h2>
+  <p class="sub">40+ classes a week. All levels welcome — every class has beginner options.</p>
+  <div class="sched">
+    <div class="card"><div class="when">MON · WED · FRI — 6:30 AM</div><h3>🧘 Sunrise Yoga</h3><p>Flow, mobility, and breathwork to start your day right.</p><div class="coach">with Sofia Alvarez · 60 min</div></div>
+    <div class="card"><div class="when">MON · THU — 12:15 PM &amp; 6:00 PM</div><h3>🔥 HIIT Blast</h3><p>45 minutes of high-intensity intervals. Torch calories, build engine.</p><div class="coach">with Dwayne Carter · 45 min</div></div>
+    <div class="card"><div class="when">TUE · THU — 7:00 AM · SAT — 9:00 AM</div><h3>🚴 Spin Cycle</h3><p>Rhythm rides, hill climbs, and sprints in our immersive spin studio.</p><div class="coach">with Jenna Park · 45 min</div></div>
+    <div class="card"><div class="when">TUE · FRI — 5:30 PM</div><h3>💪 Strength &amp; Power</h3><p>Barbell fundamentals: squat, bench, deadlift. Get strong, safely.</p><div class="coach">with Marcus "Tank" Reed · 60 min</div></div>
+    <div class="card"><div class="when">SAT — 10:30 AM</div><h3>⚡ Weekend Warrior Bootcamp</h3><p>Team-based circuits, sleds, and battle ropes. Bring a friend.</p><div class="coach">with Dwayne Carter · 60 min</div></div>
+    <div class="card"><div class="when">SUN — 11:00 AM</div><h3>🧘‍♀️ Deep Stretch &amp; Recovery</h3><p>Guided mobility work — the session your muscles will thank you for.</p><div class="coach">with Sofia Alvarez · 45 min</div></div>
+  </div>
+</section>
+
+<section class="section" id="trainers">
+  <h2>Meet the coaches</h2>
+  <p class="sub">Certified, experienced, and actually invested in your progress.</p>
+  <div class="grid">
+    <div class="card trainer"><div class="avatar">🦍</div><div><h3>Marcus "Tank" Reed</h3><div class="spec">Strength &amp; Powerlifting · 10 yrs</div><p>Former competitive powerlifter. Specializes in barbell technique and beginner strength programs.</p></div></div>
+    <div class="card trainer"><div class="avatar">🧘</div><div><h3>Sofia Alvarez</h3><div class="spec">Yoga &amp; Mobility · 8 yrs</div><p>500-hr certified yoga instructor focused on mobility for lifters and desk workers.</p></div></div>
+    <div class="card trainer"><div class="avatar">⚡</div><div><h3>Dwayne Carter</h3><div class="spec">HIIT &amp; Conditioning · 7 yrs</div><p>Ex-college sprinter. Runs our HIIT and bootcamp programs — expect to sweat.</p></div></div>
+    <div class="card trainer"><div class="avatar">🚴</div><div><h3>Jenna Park</h3><div class="spec">Spin &amp; Endurance · 6 yrs</div><p>Endurance athlete and spin studio lead. High-energy rides for every fitness level.</p></div></div>
+  </div>
+</section>
+
+<section class="section" id="visit">
+  <h2>Visit us</h2>
+  <p class="sub">Free parking. First session free — just bring workout gear.</p>
+  <div class="info">
+    <div class="card">
+      <h3>🕔 Opening hours</h3>
+      <div class="hours-row"><span>Monday – Sunday</span><b>5:00 AM – 11:00 PM</b></div>
+      <div class="hours-row"><span>Holidays</span><b>8:00 AM – 4:00 PM</b></div>
+      <div class="amen">🧖 Sauna &amp; steam room — open all hours</div>
+      <div class="amen">🏊 25-yard lap pool — 6:00 AM – 9:00 PM</div>
+      <div class="amen">🥤 Smoothie bar — 7:00 AM – 8:00 PM</div>
+    </div>
+    <div class="card">
+      <h3>📍 Find us</h3>
+      <p>3800 Commerce St<br>Dallas, TX 75226<br><br>📞 (469) 555-0163<br>✉️ hello@ironworksgym.example</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div><b>IronWorks Gym</b><br>3800 Commerce St, Dallas, TX 75226</div>
+    <div>📞 (469) 555-0163<br>✉️ hello@ironworksgym.example</div>
+    <div>Open daily 5 AM – 11 PM<br>© 2026 IronWorks Gym</div>
+  </div>
+</footer>
+<p class="demo-note">Demo portfolio piece — "IronWorks Gym" is a fictional gym created to showcase an AI chat assistant for small businesses.</p>
+
+<!-- ================= CHAT WIDGET ================= -->
+<button id="chat-launcher" onclick="toggleChat()" aria-label="Open chat">💪<span id="chat-badge">1</span></button>
+
+<div id="chat-widget" role="dialog" aria-label="IronWorks Gym chat">
+  <div class="chat-header">
+    <div class="chat-avatar">💪</div>
+    <div class="t"><b>Flex — AI Coach</b><span><span class="dot"></span> Online · replies instantly</span></div>
+    <button class="chat-close" onclick="toggleChat()">✕</button>
+  </div>
+  <div id="chat-body"></div>
+  <div id="chips"></div>
+  <div class="chat-input">
+    <input id="chat-text" type="text" placeholder="Type your message…" autocomplete="off" onkeydown="if(event.key==='Enter')sendUser()">
+    <button onclick="sendUser()" aria-label="Send">➤</button>
+  </div>
+</div>
+
+<script>
+/* ============ Flex — rule-based demo AI engine ============ */
+const body = document.getElementById('chat-body');
+const chipsEl = document.getElementById('chips');
+const inputEl = document.getElementById('chat-text');
+const launcher = document.getElementById('chat-launcher');
+const badge = document.getElementById('chat-badge');
+const widget = document.getElementById('chat-widget');
+
+let greeted = false;
+let convo = { mode:'idle', step:0, data:{} }; // mode: idle | trial | goal | pt
+
+function openChat(){ widget.classList.add('open'); badge.style.display='none'; if(!greeted){ greeted=true; greet(); } inputEl.focus(); }
+function toggleChat(){ widget.classList.contains('open') ? widget.classList.remove('open') : openChat(); }
+
+function esc(s){ const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+
+function addMsg(text, who){
+  const m=document.createElement('div');
+  m.className='msg '+who; m.innerHTML=text;
+  body.appendChild(m); body.scrollTop=body.scrollHeight;
+}
+function addUserMsg(text){
+  const m=document.createElement('div');
+  m.className='msg user'; m.textContent=text;
+  body.appendChild(m); body.scrollTop=body.scrollHeight;
+}
+function showTyping(cb){
+  const t=document.createElement('div');
+  t.className='msg bot typing'; t.id='typing-bubble';
+  t.innerHTML='<i></i><i></i><i></i>';
+  body.appendChild(t); body.scrollTop=body.scrollHeight;
+  setTimeout(()=>{ const b=document.getElementById('typing-bubble'); if(b) b.remove(); cb(); }, 650+Math.random()*500);
+}
+function botSay(html, chips){
+  showTyping(()=>{ addMsg(html,'bot'); renderChips(chips||[]); });
+}
+function renderChips(chips){
+  chipsEl.innerHTML='';
+  chips.forEach(c=>{
+    const b=document.createElement('button');
+    b.className='chip'; b.textContent=c.label;
+    b.onclick=()=>{ addUserMsg(c.label); clearChips(); handleInput(c.value||c.label, true); };
+    chipsEl.appendChild(b);
+  });
+}
+function clearChips(){ chipsEl.innerHTML=''; }
+
+const HOME_CHIPS=[
+  {label:'🎟️ Free trial session', value:'free trial'},
+  {label:'💲 Membership prices', value:'membership prices'},
+  {label:'📅 Class schedule', value:'class schedule'},
+  {label:'🎯 Find my plan', value:'find my plan'}
+];
+
+function greet(){
+  botSay("LET'S GO! 💪 I'm <b>Flex</b>, your AI coach at IronWorks Gym in Dallas. I can book your <b>free trial session</b>, help you pick the right membership, show the class schedule, or answer anything about the gym. What's your goal today?", HOME_CHIPS);
+}
+
+/* ---------- intent detection ---------- */
+function intent(t){
+  const s=t.toLowerCase();
+  if(/(^|\s)(hi|hii+|hello|hey|yo|sup|good\s?(morning|afternoon|evening))\b/.test(s)) return 'greeting';
+  if(/hour|open|close|timing|when.*(open|close)|5\s?am|11\s?pm/.test(s)) return 'hours';
+  if(/price|cost|how much|fee|charge|membership|plan|day pass|monthly|annual/.test(s)) return 'price';
+  if(/trial|free (session|workout|class|pass)|try (it|out|the gym)/.test(s)) return 'trial';
+  if(/class|schedule|yoga|hiit|spin|cycle|bootcamp|timetable/.test(s)) return 'classes';
+  if(/trainer|coach|instructor|marcus|sofia|dwayne|jenna/.test(s)) return 'trainers';
+  if(/sauna|pool|swim|steam|locker|shower|smoothie|amenit|facilit/.test(s)) return 'amenities';
+  if(/guest|bring (a |my )?friend|friend.*(come|join|visit)/.test(s)) return 'guest';
+  if(/personal train|1-?on-?1|pt session|private coach/.test(s)) return 'pt';
+  if(/find my plan|recommend|which plan|goal|lose weight|weight loss|build muscle|get strong|general fitness|tone/.test(s)) return 'goal';
+  if(/where|address|location|direction|park|find you|map/.test(s)) return 'location';
+  if(/thank|thanks|thx|great|awesome|perfect/.test(s)) return 'thanks';
+  if(/bye|goodbye|see you/.test(s)) return 'bye';
+  if(/human|person|real|staff|reception|front desk|call me|phone/.test(s)) return 'human';
+  return 'fallback';
+}
+
+/* ---------- free trial signup flow ---------- */
+function startTrial(){
+  convo={mode:'trial', step:1, data:{}};
+  botSay("YES! That's the spirit! 🔥 Your first session is <b>100% free</b> — full gym access, any class, plus a tour.<br><br>What's your <b>full name</b>?", [{label:'Never mind',value:'CANCEL'}]);
+}
+function trialStep(raw){
+  const t=raw.trim();
+  if(/^cancel$/i.test(t)||t==='CANCEL'){ convo={mode:'idle',step:0,data:{}}; botSay("No worries — the iron will be here when you're ready! 💪 Anything else?", HOME_CHIPS); return; }
+  const d=convo.data;
+  if(convo.step===1){
+    if(t.length<2){ botSay("Give me your name, champ — so we know who's crushing it on trial day!"); return; }
+    d.name=t; convo.step=2;
+    botSay(`Love it, ${esc(t.split(' ')[0])}! 💪 What's your <b>phone number</b>? (10 digits)`);
+  } else if(convo.step===2){
+    const digits=t.replace(/\D/g,'');
+    if(digits.length<10){ botSay("Hmm, that number looks short — I need your <b>10-digit</b> phone number."); return; }
+    d.phone='('+digits.slice(0,3)+') '+digits.slice(3,6)+'-'+digits.slice(6,10);
+    convo.step=3;
+    botSay("Got it! And your <b>email</b> so we can send your trial pass?");
+  } else if(convo.step===3){
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(t)){ botSay("That email doesn't look quite right — mind double-checking it?"); return; }
+    d.email=t; convo.step=4;
+    botSay("Almost there! 🏁 Which day works best for your free session?",
+      [{label:'Monday',value:'DAY:Monday'},{label:'Wednesday',value:'DAY:Wednesday'},{label:'Friday',value:'DAY:Friday'},{label:'Saturday',value:'DAY:Saturday'},{label:'Never mind',value:'CANCEL'}]);
+  } else if(convo.step===4){
+    d.day = t.startsWith('DAY:') ? t.slice(4) : t;
+    convo.step=5;
+    const ref='IW-'+Math.floor(1000+Math.random()*9000);
+    d.ref=ref;
+    botSay(`Here's your trial booking 📋<br><br>🎟️ <b>Free trial session</b><br>👤 <b>Name:</b> ${esc(d.name)}<br>📞 <b>Phone:</b> ${esc(d.phone)}<br>✉️ <b>Email:</b> ${esc(d.email)}<br>🗓️ <b>Day:</b> ${esc(d.day)}<br><br>Show up in workout gear — we'll handle the rest. Confirm?`,
+      [{label:'✅ Confirm trial',value:'CONFIRM'},{label:'Start over',value:'RESTART'},{label:'Never mind',value:'CANCEL'}]);
+  } else if(convo.step===5){
+    if(t==='CONFIRM'){
+      convo={mode:'idle',step:0,data:{}};
+      botSay(`🎉 YOU'RE IN, ${esc(d.name.split(' ')[0].toUpperCase())}!<br><br>Your trial reference is <b>${d.ref}</b>. We'll text <b>${esc(d.phone)}</b> to confirm your <b>${esc(d.day)}</b> session. Bring water, bring energy — let's get to work! 💪🔥<br><br>Anything else I can help with?`, HOME_CHIPS);
+    } else if(t==='RESTART'){ startTrial(); }
+    else { convo={mode:'idle',step:0,data:{}}; botSay("No worries — the offer stands whenever you're ready! 💪", HOME_CHIPS); }
+  }
+}
+
+/* ---------- plan recommender flow ---------- */
+function startGoal(){
+  convo={mode:'goal', step:1, data:{}};
+  botSay("Love it — let's find YOUR perfect plan! 🎯<br><br>What's your main fitness goal?",
+    [{label:'🔥 Lose weight',value:'GOAL:lose weight'},{label:'💪 Build muscle',value:'GOAL:build muscle'},{label:'⚡ General fitness',value:'GOAL:general fitness'},{label:'Never mind',value:'CANCEL'}]);
+}
+function goalStep(raw){
+  const t=raw.trim();
+  if(/^cancel$/i.test(t)||t==='CANCEL'){ convo={mode:'idle',step:0,data:{}}; botSay("All good! The right plan is waiting whenever you are. 💪", HOME_CHIPS); return; }
+  const d=convo.data;
+  if(convo.step===1){
+    d.goal = t.startsWith('GOAL:') ? t.slice(5) : t;
+    convo.step=2;
+    botSay("Great goal! 🎯 How many days a week can you realistically train?",
+      [{label:'1–2 days',value:'FREQ:1-2'},{label:'3–4 days',value:'FREQ:3-4'},{label:'5+ days',value:'FREQ:5+'},{label:'Never mind',value:'CANCEL'}]);
+  } else if(convo.step===2){
+    d.freq = t.startsWith('FREQ:') ? t.slice(5) : t;
+    convo={mode:'idle',step:0,data:{}};
+    let rec='';
+    if(d.goal==='lose weight'){
+      rec=`For <b>weight loss</b> training ${esc(d.freq)} days/week, I'd go with the <b>Monthly plan — $39/mo</b> 📅<br><br>Why: unlimited HIIT Blast + Spin classes torch calories, and the sauna helps recovery. Members who combine 3+ classes/week with our nutrition guidance see the best results. Add a PT session or two ($60) to dial in your form!`;
+    } else if(d.goal==='build muscle'){
+      rec=`For <b>building muscle</b> training ${esc(d.freq)} days/week, the <b>Annual plan — $390/yr</b> is your best play 🏆<br><br>Why: muscle takes months of consistency — annual locks your rate (2 months free!) and our Strength & Power classes + 24,000 sq ft of free weights have everything you need. Pair it with 1-on-1 coaching from Marcus to perfect your big lifts.`;
+    } else {
+      rec=`For <b>general fitness</b> training ${esc(d.freq)} days/week, start with the <b>Monthly plan — $39/mo</b> 📅<br><br>Why: zero commitment, full access — mix yoga, spin, and strength classes to find what you love. Upgrade to Annual anytime once you're hooked (and you will be 😄).`;
+    }
+    botSay(rec+"<br><br>Want me to book your <b>free trial session</b> so you can feel it out first?",
+      [{label:'🎟️ Book free trial',value:'free trial'},{label:'💲 See all plans',value:'membership prices'}]);
+  }
+}
+
+/* ---------- personal training inquiry flow ---------- */
+function startPT(){
+  convo={mode:'pt', step:1, data:{}};
+  botSay("Smart move! 💪 1-on-1 coaching is the fastest way to results. Sessions start at <b>$60</b>, with discounted 10-packs available.<br><br>What's your <b>name</b>?", [{label:'Never mind',value:'CANCEL'}]);
+}
+function ptStep(raw){
+  const t=raw.trim();
+  if(/^cancel$/i.test(t)||t==='CANCEL'){ convo={mode:'idle',step:0,data:{}}; botSay("No problem! Our group classes are a great start too. 💪", HOME_CHIPS); return; }
+  const d=convo.data;
+  if(convo.step===1){
+    if(t.length<2){ botSay("What's your name so our head coach knows who to contact?"); return; }
+    d.name=t; convo.step=2;
+    botSay(`Nice to meet you, ${esc(t.split(' ')[0])}! What's your <b>phone number</b>?`);
+  } else if(convo.step===2){
+    const digits=t.replace(/\D/g,'');
+    if(digits.length<10){ botSay("That number looks incomplete — your <b>10-digit</b> phone number?"); return; }
+    d.phone='('+digits.slice(0,3)+') '+digits.slice(3,6)+'-'+digits.slice(6,10);
+    convo.step=3;
+    botSay("Last one — what's your main training goal?",
+      [{label:'🔥 Lose weight',value:'PTGOAL:lose weight'},{label:'💪 Build muscle',value:'PTGOAL:build muscle'},{label:'🏃 Athletic performance',value:'PTGOAL:athletic performance'},{label:'🧘 Mobility & recovery',value:'PTGOAL:mobility'}]);
+  } else if(convo.step===3){
+    d.pgoal = t.startsWith('PTGOAL:') ? t.slice(7) : t;
+    convo={mode:'idle',step:0,data:{}};
+    botSay(`Done deal, ${esc(d.name.split(' ')[0])}! ✅<br><br>Our head coach will call <b>${esc(d.phone)}</b> within 24 hours to set up your free PT consultation for <b>${esc(d.pgoal)}</b>.<br><br>Meanwhile — want to try a <b>free group session</b> first?`,
+      [{label:'🎟️ Book free trial',value:'free trial'},{label:'📅 Class schedule',value:'class schedule'}]);
+  }
+}
+
+/* ---------- main router ---------- */
+function handleInput(raw, fromChip){
+  const text=raw.trim();
+  if(!text) return;
+  if(convo.mode==='trial'){ trialStep(text); return; }
+  if(convo.mode==='goal'){ goalStep(text); return; }
+  if(convo.mode==='pt'){ ptStep(text); return; }
+
+  switch(intent(text)){
+    case 'greeting':
+      botSay("Hey hey! 💪 Welcome to IronWorks! Are you here to grab your <b>free trial</b>, check <b>membership prices</b>, or see the <b>class schedule</b>?", HOME_CHIPS); break;
+    case 'hours':
+      botSay("🕔 <b>We're open DAILY: 5:00 AM – 11:00 PM</b><br>Yes, weekends too! 💪<br><br>Pool: 6 AM – 9 PM · Smoothie bar: 7 AM – 8 PM<br><br>Come crush a workout anytime!", HOME_CHIPS); break;
+    case 'price':
+      botSay("💲 <b>Membership options:</b><br>🎟️ Day Pass — <b>$15</b> (full access for the day)<br>📅 Monthly — <b>$39/mo</b> (unlimited + 1 guest/visit)<br>🏆 Annual — <b>$390/yr</b> (2 months free!)<br><br>No signup fees, ever. Want help picking the right one?",
+        [{label:'🎯 Find my plan',value:'find my plan'},{label:'🎟️ Free trial session',value:'free trial'}]); break;
+    case 'trial': startTrial(); break;
+    case 'classes':
+      botSay("📅 <b>This week's highlights:</b><br>🧘 Sunrise Yoga — Mon/Wed/Fri 6:30 AM<br>🔥 HIIT Blast — Mon/Thu 12:15 PM & 6 PM<br>🚴 Spin Cycle — Tue/Thu 7 AM, Sat 9 AM<br>💪 Strength & Power — Tue/Fri 5:30 PM<br>⚡ Weekend Bootcamp — Sat 10:30 AM<br><br>All classes are <b>free for members</b> and included in your trial!",
+        [{label:'🎟️ Book free trial',value:'free trial'}]); break;
+    case 'trainers':
+      botSay("🏋️ <b>Our coaching squad:</b><br>🦍 Marcus 'Tank' Reed — Strength & Powerlifting<br>🧘 Sofia Alvarez — Yoga & Mobility<br>⚡ Dwayne Carter — HIIT & Conditioning<br>🚴 Jenna Park — Spin & Endurance<br><br>Want 1-on-1 coaching? Sessions from $60.",
+        [{label:'💪 Personal training',value:'personal training'},{label:'🎟️ Free trial session',value:'free trial'}]); break;
+    case 'amenities':
+      botSay("✨ <b>Beyond the weights:</b><br>🧖 Sauna & steam room (open all hours)<br>🏊 25-yard lap pool (6 AM – 9 PM)<br>🚿 Locker rooms with showers & towel service<br>🥤 Smoothie bar (7 AM – 8 PM)<br><br>All included with every membership!", HOME_CHIPS); break;
+    case 'guest':
+      botSay("Bring your workout buddy! 🤝 <b>Monthly & Annual members can bring 1 guest per visit, free.</b> Day-pass holders can add a guest for $15.<br><br>Guests just need an ID at the front desk.", HOME_CHIPS); break;
+    case 'pt': startPT(); break;
+    case 'goal': startGoal(); break;
+    case 'location':
+      botSay("📍 Find us at:<br><b>3800 Commerce St<br>Dallas, TX 75226</b><br><br>Free parking lot out front, 5 min from downtown. Look for the big orange sign — you can't miss it! 💪", HOME_CHIPS); break;
+    case 'thanks':
+      botSay("Anytime, champ! 😄 Now go drink some water and get after it! 💪", HOME_CHIPS); break;
+    case 'bye':
+      botSay("See you at the gym! 🏋️ Remember: the hardest rep is walking through the door. 💪🔥", []); break;
+    case 'human':
+      botSay("You got it! Our front desk crew is here <b>daily 5 AM – 11 PM</b>. Call us at <b>(469) 555-0163</b> — or drop your details and we'll call YOU back.",
+        [{label:'📞 (469) 555-0163',value:'call'}]); break;
+    default:
+      botSay("Hmm, that one's outside my workout plan! 🤔<br><br>Ask me about our <b>hours</b>, <b>prices</b>, <b>classes</b>, <b>trainers</b>, or grab a <b>free trial session</b> — or call us at <b>(469) 555-0163</b>.",
+        [{label:'🎟️ Free trial session',value:'free trial'},{label:'💲 Membership prices',value:'membership prices'},{label:'📅 Class schedule',value:'class schedule'}]);
+  }
+}
+
+function sendUser(){
+  const v=inputEl.value.trim();
+  if(!v) return;
+  inputEl.value='';
+  addUserMsg(v); clearChips();
+  handleInput(v,false);
+}
+</script>
+</body>
+</html>
